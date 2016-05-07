@@ -33,7 +33,7 @@ else
 fi
 
 unamestr=`uname`
-if [[ $unamestr == 'darwing' ]]; then
+if [[ $unamestr == darwin* ]]; then
 	PLATFORM="MacOS"
 else
 	PLATFORM="Linux"
