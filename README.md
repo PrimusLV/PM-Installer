@@ -15,7 +15,7 @@ To run script 'cd' into directory where you downloaded it and execute
 ```
 
 If everything went fine, you should see something like
-```
+```php
 [INFO] Starting...
 [INFO] Script running on Linux x86
 [INFO] Checking connectivity...
