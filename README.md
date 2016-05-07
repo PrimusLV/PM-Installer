@@ -4,17 +4,18 @@ Auto fetch PocketMine-MP project files from Github and install it's dependencies
 Note: This script is for Linux/MacOS users only (Windows isn't supported)
 
 To run script 'cd' into directory where you downloaded it and execute
-[code]
+
+``
 ~ $ sudo bash ./pmInstall.sh
 
 # Or
 
 ~ $ sudo chmod +x ./pmInstall.sh
 ~ $ ./pmInstall.sh
-[/code]
+``
 
 If everything went fine, you should see something like
-[code]
+``
 [INFO] Starting...
 [INFO] Script running on Linux x86
 [INFO] Checking connectivity...
@@ -32,5 +33,5 @@ If everything went fine, you should see something like
 [*] PocketMine-MP set-up wizard
 # ...
 
-[/code]
+``
 Script will run PocketMine-MP automatically.
