@@ -4,12 +4,6 @@
 #
 # Script require 'git' to be installed
 
-GRAY="\e[37m"
-YELLOW="\e[33m"
-RED="\e[31m"
-RESET="\e[97m"
-DIM="\e[22m"
-
 TARGET_DIR="PocketMine-MP"
 PROJECT_GIT="https://github.com/PocketMine/PocketMine-MP.git"
 
@@ -33,7 +27,7 @@ else
 fi
 
 unamestr=`uname`
-if [[ $unamestr == darwin* ]]; then
+if [[ $unamestr == Darwin* ]]; then
 	PLATFORM="MacOS"
 else
 	PLATFORM="Linux"
@@ -45,15 +39,17 @@ PHP_BIN="PHP_7.0.3_${MACHINE_ARCH}_${PLATFORM}.tar.gz"
 
 # Internal functions below
 
+alias download "wget -q -O -"
+
 	# Logger
 function Logger.info () {
-	echo -e "${DIM}${GRAY}[INFO]${RESET} ${1}"
+	echo -e "[INFO] ${1}"
 }
 function Logger.warning () {
-	echo -e "${DIM}${YELLOW}[WARNING]${RESET} ${1}"
+	echo -e "[WARNING] ${1}"
 }
 function Logger.critical () {
-	echo -e "${DIM}${RED}[CRITICAL]${RESET} ${1}"
+	echo -e "[CRITICAL] ${1}"
 }
 
 function PocketMine.start () {
@@ -93,13 +89,13 @@ Logger.info "Checking connectivity..."
 if hash git 2>/dev/null; then
 	Logger.info "'git' command found."	
 else
-	quit "Command 'git' not found. Install package doing ${YELLOW}'sudo apt-get install git'${RESET}"
+	quit "Command 'git' not found. Install package doing 'sudo apt-get install git'"
 fi
 	# Check if tar is installed
 if hash tar 2>/dev/null; then
 	Logger.info "'tar' command found."
 else
-	quit "Command 'tar' not found. Install package doing ${YELLOW}'sudo apt-get install tar'${RESET}"
+	quit "Command 'tar' not found. Install package doing 'sudo apt-get install tar'"
 fi
 
 
@@ -139,7 +135,7 @@ if [ -f "bin/php7/bin/php" ]; then
 
 else
 
-	wget "https://bintray.com/pocketmine/PocketMine/download_file?file_path=${PHP_BIN}"
+	download "https://bintray.com/pocketmine/PocketMine/${PHP_BIN}"
 
 	# Rename :P
 	mv "download_file?file_path=${PHP_BIN}" "${PHP_BIN}"
@@ -164,7 +160,3 @@ Logger.info "Starting PocketMine-MP..."
 exec "./start.sh"
 
 Logger.info "Done"
-
-
-
-
