@@ -34,6 +34,8 @@ PHP_BIN="PHP_7.0.3_${MACHINE_ARCH}_${PLATFORM}.tar.gz"
 XDEBUG="off" # Enable xdebug? -x
 DEBUG="on"
 IGNORE_CERT="yes"
+UPDATE_PM="yes"
+UPDATE_PHP="no"
 
 alldone="no"
 
@@ -44,7 +46,7 @@ function Logger.info () { echo -e "[INFO] ${1}"; }
 function Logger.warning () { echo -e "[WARNING] ${1}"; }
 function Logger.critical () { echo -e "[CRITICAL] ${1}"; }
 function Logger.debug () { if [ $DEBUG == "on" ]; then echo -e "[DEBUG] ${1}"; fi }
-function PocketMine.start () { if [ -f "./start.sh" ]; then exec "./start.sh ${1}"; else cd $TARGET_DIR; fi; exec "./start.sh ${1}"; }
+function PocketMine.start () { if [ -f "./start.sh" ]; then exec "./start.sh"; else cd $TARGET_DIR; fi; exec "./start.sh"; }
 function quit () {
 	if [ -z ${1+x} ]; then
 		exit
@@ -55,12 +57,11 @@ function quit () {
 	exit
 }
 
-while getopts "xi:v:t:" opt; do
-  echo $opt
+while getopts "xiupm:v:t:" opt; do
   case $opt in
     x)
 	  XDEBUG="on"
-	  Logger.info "[+] Enabling xdebug"
+	  Logger.info "Enabled xdebug"
       ;;
 	t)
 	  TARGET_DIR="$OPTARG"
@@ -68,9 +69,17 @@ while getopts "xi:v:t:" opt; do
 	i)
 	  IGNORE_CERT="no"
       ;;
+    m)
+	  UPDATE_PM="no"
+	  Logger.info "Script won't update PocketMine due to user request"
+	  ;;
+	p)
+	  UPDATE_PHP="yes"
+	  Logger.info "Script will update PHP library"
+	  ;;
     \?)
-      echo "Invalid option: -$OPTARG" >&2
-	  exit 1
+      Logger.warning "Invalid option: -$OPTARG" >&2
+	  quit
       ;;
   esac
 done
@@ -107,9 +116,9 @@ shopt -s expand_aliases
 type wget > /dev/null 2>&1
 if [ $? -eq 0 ]; then
 	if [ "$IGNORE_CERT" == "yes" ]; then
-		alias download_file="wget --no-check-certificate -q"
+		alias download_file="wget --no-check-certificate -q "
 	else
-		alias download_file="wget -q -O -"
+		alias download_file="wget -q -O "
 	fi
 else
 	type curl >> /dev/null 2>&1
@@ -126,16 +135,25 @@ fi
 
 
 
-if [ -e "$TARGET_DIR/.git"  ]; then # TODO: Add --force option and --tar
-	Logger.info "PocketMine found. Updating..."
-	cd $TARGET_DIR
-	git fetch
+if [ -e "$TARGET_DIR/.git" ]; then # TODO: Add --force option and --tar
+
+	if [ $UPDATE_PM == "yes" ]; then
+		Logger.info "PocketMine found. Updating..."
+		cd $TARGET_DIR
+		git fetch
+	else
+		Logger.info "PocketMine found."
+	fi
+
 else
 
 	Logger.info "Downloading project files..."
 
 	# Download 
 	git clone --recursive $PROJECT_GIT $TARGET_DIR
+
+	chmod +x ./start.sh
+	chmod +x ./start.cmd
 
 	Logger.info "Project files downloaded"
 
@@ -145,6 +163,12 @@ else
 		Logger.critical "Failed to download project files"
 	fi
 
+fi
+
+if [ $UPDATE_PHP == "yes" ]; then
+	if [ -e "bin" ]; then
+		rm -r "bin"
+		 fi
 fi
 
 if [ -f $PHP_BIN ]; then
@@ -160,7 +184,7 @@ if [ -f "bin/php7/bin/php" ]; then
 
 else
 
-	download_file "https://dl.bintray.com/pocketmine/PocketMine/${PHP_BIN}" > $PHP_BIN
+	download_file "https://dl.bintray.com/pocketmine/PocketMine/${PHP_BIN}"
 
 	if [ -f $PHP_BIN ]; then 
 		Logger.info "PHP archive (${PHP_BIN}) downloaded"
@@ -175,9 +199,8 @@ else
 			quit "Failed to extract PHP binaries"
 		fi
 
-		Logger.info "Setting permissions"
+		Logger.debug "Setting permissions"
 		chmod +x ./bin/php7/bin/*
-		Logger.info "Permissions set"
 
 	else
 		quit "Failed to download PHP binaries"
@@ -216,7 +239,6 @@ if [ "$(./bin/php7/bin/php -r 'echo 1;' 2>/dev/null)" == "1" ]; then
 				echo " invalid build detected"
 			fi
 
-alldone="no"
 if [ $alldone == "no" ]; then
 	Logger.warning "Failed to get PHP build from bintray"
 	Logger.warning "Script will now try to get & run compile.sh to compile PHP automatically"
@@ -230,8 +252,8 @@ if [ $alldone == "no" ]; then
 	fi
 fi
 
-#quit ""# END
 Logger.info "Starting PocketMine-MP..."
-exec "./start.sh"
+
+PocketMine.start
 
 Logger.info "Done"
