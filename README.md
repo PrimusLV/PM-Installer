@@ -1,7 +1,9 @@
 # PM-Installer (Unix)
 Auto fetch PocketMine-MP project files from Github and install it's dependencies (PHP binary, submodules)
 
-Note: This script is for Linux/MacOS users only (Windows isn't supported)
+>:round_pushpin: Note: 
+>Note: This script is for Linux/MacOS users only (Windows isn't supported)
+
 
 To run script 'cd' into directory where you downloaded it and execute
 
