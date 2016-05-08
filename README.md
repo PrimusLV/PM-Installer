@@ -14,6 +14,15 @@ To run script 'cd' into directory where you downloaded it and execute
 ~ $ ./pmInstall.sh
 ```
 
+###Avaliable arguments
+```php
+  -x: "Compile PHP with xdebug enabled"
+  -t: "Set cutom PocketMine install directory"
+  -i: "Ignore certifications on file download"
+  -m: "Update PocketMine if valid installation found"
+  -p: "Update PHP"
+```
+
 If everything went fine, you should see something like
 ```php
 [INFO] Starting...
