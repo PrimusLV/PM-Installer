@@ -35,3 +35,6 @@ If everything went fine, you should see something like
 
 ```
 Script will run PocketMine-MP automatically.
+
+###Disclaimer
+This script were made to learn bash scripting.
