@@ -256,4 +256,4 @@ Logger.info "Starting PocketMine-MP..."
 
 PocketMine.start
 
-Logger.info "Done"<
+Logger.info "Done"
