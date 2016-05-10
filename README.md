@@ -47,7 +47,7 @@ Cloning into 'PM-Test'...
 [*] PocketMine-MP set-up wizard
 # ...
 ```
-Script will run PocketMine-MP automatically if.
+Script will run PocketMine-MP automatically if everything went fine.
 
-###Disclaimer
-This script were made to learn bash scripting.
+>Disclimer:
+>This script were made to learn bash scripting.
