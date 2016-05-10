@@ -49,5 +49,5 @@ Cloning into 'PM-Test'...
 ```
 Script will run PocketMine-MP automatically if everything went fine.
 
->Disclimer:
+>Disclaimer:
 >This script were made to learn bash scripting.
