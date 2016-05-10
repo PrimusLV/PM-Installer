@@ -152,9 +152,6 @@ else
 	# Download 
 	git clone --recursive $PROJECT_GIT $TARGET_DIR
 
-	chmod +x ./start.sh
-	chmod +x ./start.cmd
-
 	Logger.info "Project files downloaded"
 
 	if [ -e $TARGET_DIR ]; then
@@ -201,6 +198,8 @@ else
 
 		Logger.debug "Setting permissions"
 		chmod +x ./bin/php7/bin/*
+		chmod +x ./start.sh
+		chmod +x ./start.cmd
 
 	else
 		quit "Failed to download PHP binaries"
