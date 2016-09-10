@@ -8,12 +8,11 @@ Auto fetch PocketMine-MP project files from Github and install it's dependencies
 To run script 'cd' into directory where you downloaded it and execute
 
 ```sh
-~ $ sudo bash ./pmInstall.sh
+$ sudo bash ./pmInstall.sh
 
 # Or
-
-~ $ sudo chmod +x ./pmInstall.sh
-~ $ ./pmInstall.sh
+$ sudo chmod +x ./pmInstall.sh
+$ ./pmInstall.sh
 ```
 
 ###Avaliable arguments
@@ -23,27 +22,21 @@ To run script 'cd' into directory where you downloaded it and execute
   -i: "Ignore certifications on file download"
   -m: "Update PocketMine if valid installation found"
   -p: "Update PHP"
+  -s: "See more details on git operations"
+  -d: "Enable script 
 ```
 
 If everything went fine, you should see something like
 ```php
-[12:45:03 INFO]: Starting...
-[12:45:03 INFO]: Script running on Linux x86
-[12:45:03 INFO]: Checking connectivity...
-[12:45:03 INFO]: Connected
-[12:45:03 DEBUG]: git required.
-[12:45:03 DEBUG]: tar required.
-[12:45:03 INFO]: Downloading project files...
-Cloning into 'PM-Test'...
-# Git clone log messages
-[12:46:42 INFO]: Project files downloaded
-[12:46:42 INFO]: Downloading PHP binaries...
-[12:47:17 INFO]: PHP archive (PHP_7.0.3_x86_Linux.tar.gz) downloaded
-[12:47:20 INFO]: PHP binaries extracted
-[12:47:20 DEBUG]: Setting permissions
-[12:47:21 INFO]: Regenerating php.ini...
-[12:47:21 INFO]: php.ini configured
-[12:47:21 INFO]: Starting PocketMine-MP...
+[17:28:32] [INFO]: Script running on Linux x86
+[17:28:32] [INFO]: Downloading project files...
+[17:30:29] [INFO]: Project files downloaded!
+[17:30:29] [INFO]: Downloading PHP binaries...
+[17:31:05] [INFO]: PHP archive (PHP_7.0.3_x86_Linux.tar.gz) downloaded
+[17:31:06] [INFO]: PHP binaries extracted
+[17:31:07] [INFO]: Regenerating php.ini...
+[17:31:07] [INFO]: php.ini configured
+[17:31:07] [INFO]: Starting PocketMine-MP...
 [*] PocketMine-MP set-up wizard
 # ...
 ```
