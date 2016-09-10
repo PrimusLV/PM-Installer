@@ -228,7 +228,7 @@ if [ "$(./bin/php7/bin/php -r 'echo 1;' 2>/dev/null)" == "1" ]; then
 				Logger.info "Regenerating php.ini..."
 				TIMEZONE=$(date +%Z)
 				#OPCACHE_PATH="$(find $(pwd) -name opcache.so)"
-				XDEBUG_PATH="$(find $(pwd) -name xdebug.so)"
+				XDEBUG_PATH="$(find "$(pwd)" -name xdebug.so)"
 				echo "" > "./bin/php7/bin/php.ini"
 				if [ "$XDEBUG" == "on" ]; then
 					echo "zend_extension=\"$XDEBUG_PATH\"" >> "./bin/php7/bin/php.ini"
