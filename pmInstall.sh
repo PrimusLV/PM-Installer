@@ -36,6 +36,7 @@ DEBUG="off"
 IGNORE_CERT="yes"
 UPDATE_PM="yes"
 UPDATE_PHP="no"
+SILENT_GIT="yes"
 
 alldone="no"
 
@@ -57,43 +58,50 @@ function quit () {
 	exit
 }
 
-while getopts "xiupm:v:t:" opt; do
+while getopts "xdiupms:v:t:" opt; do
   case $opt in
-    x)
-	  XDEBUG="on"
-	  Logger.info "Enabled xdebug"
-      ;;
-	t)
-	  TARGET_DIR="$OPTARG"
-      ;;
-	i)
-	  IGNORE_CERT="no"
-      ;;
-    m)
-	  UPDATE_PM="no"
-	  Logger.info "Script won't update PocketMine due to user request"
-	  ;;
-	p)
-	  UPDATE_PHP="yes"
-	  Logger.info "Script will update PHP library"
-	  ;;
-    \?)
-      Logger.warning "Invalid option: -$OPTARG" >&2
-	  quit
-      ;;
+x)
+	XDEBUG="on"
+	Logger.info "Enabled xdebug"
+	;;
+d)	DEBUG="on"
+	Logger.debug "Script debug enabled"
+	;;
+t)
+	TARGET_DIR="$OPTARG"
+	;;
+i)
+	IGNORE_CERT="no"
+	;;
+m)
+	UPDATE_PM="no"
+	Logger.info "Script won't update PocketMine due to user request"
+	;;
+p)
+	UPDATE_PHP="yes"
+	Logger.info "Script will update PHP library"
+	;;
+s)
+	SILENT_GIT="no"
+	;;
+\?)
+	Logger.warning "Invalid option: -$OPTARG" >&2
+	quit
+	;;
   esac
 done
 
 # Script below
-
-Logger.info "Starting..."
-
 Logger.info "Script running on ${PLATFORM} ${MACHINE_ARCH}"
 
+# If debug is enabled then "silent git" operations are not possible
+if [ "$DEBUG" == "on" ] && [ "$SILENT_GIT" == "no" ]; then
+	SILENT_GIT="yes"
+fi
 
-Logger.info "Checking connectivity..."
+Logger.debug "Checking connectivity..."
 	if  ping -q -w 1 -c 1 `ip r | grep default | cut -d ' ' -f 3` > /dev/null; then
-		Logger.info "Connected"
+		Logger.debug "Connected"
 	else
 		quit "You're working offline. For script to work it must use internet connection."
 	fi
@@ -133,6 +141,14 @@ else
 	fi
 fi
 
+if [ "$SILENT_GIT" == "yes" ]; then
+	alias pm_fetch="git fetch --quiet"
+	alias pm_clone="git clone --recursive --quiet"
+else
+	alias pm_fetch="git fetch";
+	alias pm_clone="git clone --recursive"
+fi
+
 
 
 if [ -e "$TARGET_DIR/.git" ]; then # TODO: Add --force option and --tar
@@ -140,7 +156,7 @@ if [ -e "$TARGET_DIR/.git" ]; then # TODO: Add --force option and --tar
 	if [ $UPDATE_PM == "yes" ]; then
 		Logger.info "PocketMine found. Updating..."
 		cd "$TARGET_DIR"
-		git fetch
+		pm_fetch
 	else
 		Logger.info "PocketMine found."
 	fi
@@ -150,7 +166,7 @@ else
 	Logger.info "Downloading project files..."
 
 	# Download 
-	git clone --recursive "$PROJECT_GIT" "$TARGET_DIR"
+	pm_clone --recursive "$PROJECT_GIT" "$TARGET_DIR"
 
 	Logger.info "Project files downloaded"
 
