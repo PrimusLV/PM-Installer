@@ -46,7 +46,7 @@ function Logger.info () { echo -e "[$(date +%H:%M:%S) INFO]: ${1}"; }
 function Logger.warning () { echo -e "[$(date +%H:%M:%S) WARNING]: ${1}"; }
 function Logger.critical () { echo -e "[$(date +%H:%M:%S) CRITICAL]: ${1}"; }
 function Logger.debug () { if [ $DEBUG == "on" ]; then echo -e "[$(date +%H:%M:%S) DEBUG]: ${1}"; fi }
-function PocketMine.start () { if [ -f "./start.sh" ]; then exec "./start.sh"; else cd $TARGET_DIR; fi; exec "./start.sh"; }
+function PocketMine.start () { if [ -f "./start.sh" ]; then exec "./start.sh"; else cd "$TARGET_DIR"; fi; exec "./start.sh"; }
 function quit () {
 	if [ -z ${1+x} ]; then
 		exit
@@ -139,7 +139,7 @@ if [ -e "$TARGET_DIR/.git" ]; then # TODO: Add --force option and --tar
 
 	if [ $UPDATE_PM == "yes" ]; then
 		Logger.info "PocketMine found. Updating..."
-		cd $TARGET_DIR
+		cd "$TARGET_DIR"
 		git fetch
 	else
 		Logger.info "PocketMine found."
@@ -150,12 +150,12 @@ else
 	Logger.info "Downloading project files..."
 
 	# Download 
-	git clone --recursive $PROJECT_GIT $TARGET_DIR
+	git clone --recursive "$PROJECT_GIT" "$TARGET_DIR"
 
 	Logger.info "Project files downloaded"
 
-	if [ -e $TARGET_DIR ]; then
-		cd $TARGET_DIR
+	if [ -e "$TARGET_DIR" ]; then
+		cd "$TARGET_DIR"
 	else
 		Logger.critical "Failed to download project files"
 	fi
