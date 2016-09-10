@@ -40,14 +40,39 @@ SILENT_GIT="yes"
 
 alldone="no"
 
+# Colors
+FORMAT_BOLD="\x1b[1m";
+FORMAT_OBFUSCATED="";
+FORMAT_ITALIC="\x1b[3m";
+FORMAT_UNDERLINE="\x1b[4m";
+FORMAT_STRIKETHROUGH="\x1b[9m";
+FORMAT_RESET="\x1b[m";
+COLOR_BLACK="\x1b[38;5;16m";
+COLOR_DARK_BLUE="\x1b[38;5;19m";
+COLOR_DARK_GREEN="\x1b[38;5;34m";
+COLOR_DARK_AQUA="\x1b[38;5;37m";
+COLOR_DARK_RED="\x1b[38;5;124m";
+COLOR_PURPLE="\x1b[38;5;127m";
+COLOR_GOLD="\x1b[38;5;214m";
+COLOR_GRAY="\x1b[38;5;145m";
+COLOR_DARK_GRAY="\x1b[38;5;59m";
+COLOR_BLUE="\x1b[38;5;63m";
+COLOR_GREEN="\x1b[38;5;83m";
+COLOR_AQUA="\x1b[38;5;87m";
+COLOR_RED="\x1b[38;5;203m";
+COLOR_LIGHT_PURPLE="\x1b[38;5;207m";
+COLOR_YELLOW="\x1b[38;5;227m";
+COLOR_WHITE="\x1b[38;5;231m";
+
 # Internal functions below
 
 	# Logger
-function Logger.info () { echo -e "[$(date +%H:%M:%S)] [INFO] ${1}"; }
-function Logger.warning () { echo -e "[$(date +%H:%M:%S)] [WARNING] ${1}"; }
-function Logger.critical () { echo -e "[$(date +%H:%M:%S)] [CRITICAL] ${1}"; }
-function Logger.debug () { if [ $DEBUG == "on" ]; then echo -e "[$(date +%H:%M:%S)] [DEBUG] ${1}"; fi }
+function Logger.info () { send "$COLOR_WHITE[INFO]: ${1}"; }
+function Logger.warning () { send "$COLOR_YELLOW[WARNING]: ${1}"; }
+function Logger.critical () { send "$COLOR_RED[CRITICAL]: ${1}"; }
+function Logger.debug () { if [ $DEBUG == "on" ]; then send "$COLOR_GRAY[DEBUG]: ${1}"; fi }
 function PocketMine.start () { if [ -f "./start.sh" ]; then exec "./start.sh"; else cd "$TARGET_DIR"; fi; exec "./start.sh"; }
+function send () { echo -e "$COLOR_DARK_AQUA[$(date +%H:%M:%S)] ${1}"; }
 function quit () {
 	if [ -z ${1+x} ]; then
 		exit
@@ -58,7 +83,7 @@ function quit () {
 	exit
 }
 
-while getopts "xdiupms:v:t:" opt; do
+while getopts "xdiupsm:v:t:" opt; do
   case $opt in
 x)
 	XDEBUG="on"
@@ -83,6 +108,7 @@ p)
 	;;
 s)
 	SILENT_GIT="no"
+	Logger.info "Git clone operations will be visible now"
 	;;
 \?)
 	Logger.warning "Invalid option: -$OPTARG" >&2
@@ -142,10 +168,10 @@ else
 fi
 
 if [ "$SILENT_GIT" == "yes" ]; then
-	alias pm_fetch="git fetch --quiet"
+	alias pm_fetch="git pull --quiet"
 	alias pm_clone="git clone --recursive --quiet"
 else
-	alias pm_fetch="git fetch";
+	alias pm_fetch="git pull";
 	alias pm_clone="git clone --recursive"
 fi
 
