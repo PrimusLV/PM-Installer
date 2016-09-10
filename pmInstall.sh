@@ -32,7 +32,7 @@ PHP_BIN="PHP_7.0.3_${MACHINE_ARCH}_${PLATFORM}.tar.gz"
 
 # Settings
 XDEBUG="off" # Enable xdebug? -x
-DEBUG="on"
+DEBUG="off"
 IGNORE_CERT="yes"
 UPDATE_PM="yes"
 UPDATE_PHP="no"
