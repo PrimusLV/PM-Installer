@@ -4,7 +4,7 @@
 #
 # Script require 'git' to be installed
 
-TARGET_DIR="PocketMine-MP-Test"
+TARGET_DIR="PocketMine-MP Server"
 PROJECT_GIT="https://github.com/PocketMine/PocketMine-MP.git"
 
 # PHP Binaries
