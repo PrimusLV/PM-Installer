@@ -113,6 +113,7 @@ s)
 g)	
 	PROJECT_GIT="$OPTARG"
 	Logger.debug "Using non-official git repository: $OPTARG"
+	;;
 \?)
 	Logger.warning "Invalid option: -$OPTARG" >&2
 	quit
