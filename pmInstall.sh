@@ -83,7 +83,7 @@ function quit () {
 	exit
 }
 
-while getopts "xdiupsm:v:t:" opt; do
+while getopts "xdiupsg:m:v:t:" opt; do
   case $opt in
 x)
 	XDEBUG="on"
@@ -110,6 +110,9 @@ s)
 	SILENT_GIT="no"
 	Logger.info "Git clone operations will be visible now"
 	;;
+g)	
+	PROJECT_GIT="$OPTARG"
+	Logger.debug "Using non-official git repository: $OPTARG"
 \?)
 	Logger.warning "Invalid option: -$OPTARG" >&2
 	quit
