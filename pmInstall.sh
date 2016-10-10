@@ -129,13 +129,6 @@ if [ "$DEBUG" == "on" ] && [ "$SILENT_GIT" == "no" ]; then
 	SILENT_GIT="yes"
 fi
 
-Logger.debug "Checking connectivity..."
-	if  ping -q -w 1 -c 1 `ip r | grep default | cut -d ' ' -f 3` > /dev/null; then
-		Logger.debug "Connected"
-	else
-		quit "You're working offline. For script to work it must use internet connection."
-	fi
-
 	# Check if git is installed
 if hash git 2>/dev/null; then
 	Logger.debug "git required."	
